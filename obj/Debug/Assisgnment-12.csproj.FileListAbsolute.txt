@@ -1,0 +1,8 @@
+C:\Users\Administrator\Desktop\Angular Self paced\Assisgnment\Assisgnment-12\Assisgnment-12\bin\Debug\Assisgnment-12.exe.config
+C:\Users\Administrator\Desktop\Angular Self paced\Assisgnment\Assisgnment-12\Assisgnment-12\bin\Debug\Assisgnment-12.exe
+C:\Users\Administrator\Desktop\Angular Self paced\Assisgnment\Assisgnment-12\Assisgnment-12\bin\Debug\Assisgnment-12.pdb
+C:\Users\Administrator\Desktop\Angular Self paced\Assisgnment\Assisgnment-12\Assisgnment-12\obj\Debug\Assisgnment-12.csproj.AssemblyReference.cache
+C:\Users\Administrator\Desktop\Angular Self paced\Assisgnment\Assisgnment-12\Assisgnment-12\obj\Debug\Assisgnment-12.csproj.SuggestedBindingRedirects.cache
+C:\Users\Administrator\Desktop\Angular Self paced\Assisgnment\Assisgnment-12\Assisgnment-12\obj\Debug\Assisgnment-12.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Desktop\Angular Self paced\Assisgnment\Assisgnment-12\Assisgnment-12\obj\Debug\Assisgnment-12.exe
+C:\Users\Administrator\Desktop\Angular Self paced\Assisgnment\Assisgnment-12\Assisgnment-12\obj\Debug\Assisgnment-12.pdb
