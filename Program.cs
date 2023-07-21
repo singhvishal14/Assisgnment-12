@@ -1,135 +1,116 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 
-namespace Assisgnment_12
+namespace Assignment_12
 {
-    public class CustomRegexSearch
+    public class Program
     {
-        public static List<string> PerformCustomRegexSearch(string inputText, string customRegex)
+        static void Main(string[] args)
         {
-            List<string> matches = new List<string>();
+            Console.WriteLine("Enter a Paragraph:");// Enter Paragraph you want to Insert
+            string input = Console.ReadLine();
 
-            try
+            int wordCount = CountWords(input); // function for Word  Count
+            Console.WriteLine($"Word Count: {wordCount}");
+
+            var emailAddresses = GetEmailAddresses(input);
+            if (emailAddresses.Count > 0)
             {
-                // Use regex pattern based on the custom input provided by the user.
-                // The RegexOptions.Compiled flag improves performance for multiple calls to the method.
-                MatchCollection regexMatches = Regex.Matches(inputText, customRegex, RegexOptions.Compiled);
-
-                foreach (Match match in regexMatches)
+                Console.WriteLine("Email Addresses found:");
+                foreach (var email in emailAddresses)
                 {
-                    matches.Add(match.Value);
+                    Console.WriteLine(email);
                 }
             }
-            catch (ArgumentException ex)
+            else
             {
-                // If the user-provided regex is invalid, catch the exception and display an error message.
-                Console.WriteLine("Invalid regular expression: " + ex.Message);
+                Console.WriteLine("No email addresses found.");
             }
 
-            return matches;
+            var mobileNumbers = ExtractMobileNumbers(input);
+            if (mobileNumbers.Count > 0)
+            {
+                Console.WriteLine("Mobile Numbers found:");
+                foreach (var number in mobileNumbers)
+                {
+                    Console.WriteLine(number);
+                }
+            }
+            else
+            {
+                Console.WriteLine("No mobile numbers found.");
+            }
+
+            Console.WriteLine("Enter a custom regular expression to search:");
+            string customRegexPattern = Console.ReadLine();
+
+            var customRegexMatches = PerformCustomRegexSearch(input, customRegexPattern);
+            if (customRegexMatches.Count > 0)
+            {
+                Console.WriteLine("Custom Regex Matches found:");
+                foreach (var match in customRegexMatches)
+                {
+                    Console.WriteLine(match);
+                }
+            }
+            else
+            {
+                Console.WriteLine("No matches found for the custom regular expression.");
+            }
+            Console.ReadKey();
         }
-    }
-    public class MobileNumberExtractor
-    {
-        public static List<string> ExtractMobileNumbers(string inputText)
+
+
+        // this function is used for Count the words in Paragraph
+        static int CountWords(string inputText)
         {
-            List<string> mobileNumbers = new List<string>();
+            return inputText.Split(new char[] { ' ', '\t', '\n' }, StringSplitOptions.RemoveEmptyEntries).Length;
+        }
+        // this is used for Identify given Email Address
+        static List<string> GetEmailAddresses(string inputText)
+        {
+            var emailRegex = new Regex(@"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b");
+            var emailMatches = emailRegex.Matches(inputText);
 
-            // Use regex pattern to match mobile numbers with 10 digits.
-            // The RegexOptions.Compiled flag improves performance for multiple calls to the method.
-            MatchCollection matches = Regex.Matches(inputText, @"\b\d{10}\b", RegexOptions.Compiled);
+            var emailAddresses = new List<string>();
+            foreach (Match match in emailMatches)
+            {
+                emailAddresses.Add(match.Value);
+            }
 
-            foreach (Match match in matches)
+            return emailAddresses;
+        }
+
+        static List<string> ExtractMobileNumbers(string inputText)
+        {
+            var mobileNumberRegex = new Regex(@"\b\d{10}\b");
+            var mobileNumberMatches = mobileNumberRegex.Matches(inputText);
+
+            var mobileNumbers = new List<string>();
+            foreach (Match match in mobileNumberMatches)
             {
                 mobileNumbers.Add(match.Value);
             }
 
             return mobileNumbers;
         }
+
+        static List<string> PerformCustomRegexSearch(string inputText, string customRegexPattern)
+        {
+            var customRegex = new Regex(customRegexPattern);
+            var customRegexMatches = customRegex.Matches(inputText);
+
+            var matches = new List<string>();
+            foreach (Match match in customRegexMatches)
+            {
+                matches.Add(match.Value);
+            }
+
+            return matches;
+
+        }
+
     }
 
-    public class EmailValidator
-    {
-        public static bool ContainsEmail(string inputText)
-        {
-            // Use regex pattern to match email addresses.
-            // The pattern checks for the username, @ symbol, and domain name with specific format restrictions.
-            // The RegexOptions.Compiled flag improves performance for multiple calls to the method.
-            MatchCollection matches = Regex.Matches(inputText, @"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b", RegexOptions.Compiled);
-
-            return matches.Count > 0;
-        }
-        public class WordCounter
-        {
-            public static int CountWords(string inputText)
-            {
-                if (string.IsNullOrWhiteSpace(inputText))
-                    return 0;
-
-                // Use regex pattern to match words (sequences of characters separated by spaces).
-                // \b matches a word boundary, \w+ matches one or more word characters (letters, digits, underscores).
-                // The RegexOptions.Compiled flag improves performance for multiple calls to the method.
-                MatchCollection matches = Regex.Matches(inputText, @"\b\w+\b", RegexOptions.Compiled);
-
-                return matches.Count;
-            }
-        }
-        internal class Program1
-        {
-            static void Main(string[] args)
-            {
-                Console.WriteLine("enter Input as per your choice");
-                string str = Console.ReadLine();
-                string pattern = @"^[a-z A-Z_]*$";
-
-                Regex regex = new Regex(pattern);
-                if (regex.IsMatch(str))
-                {
-                    Console.WriteLine($"your line\'{str}' got readed successfully");
-                }
-                else
-                {
-                    Console.WriteLine($"your line\'{str}' containing incorrect format");
-                    int wordCount = WordCounter.CountWords(str);
-                    Console.WriteLine("Number of words: " + wordCount);
-                    bool containsEmail = EmailValidator.ContainsEmail(str);
-                    Console.WriteLine("Contains email address: " + containsEmail);
-                    List<string> mobileNumbers = MobileNumberExtractor.ExtractMobileNumbers(str);
-
-                    Console.WriteLine("Mobile numbers found:");
-                    foreach (string number in mobileNumbers)
-                    {
-                        Console.WriteLine(number);
-                    }
-                    Console.Write("Enter custom regular expression: ");
-                    string customRegex = Console.ReadLine();
-                    Console.WriteLine("\nenter new string for custom regex");
-                    string str1 = Console.ReadLine();
-
-                    List<string> matches = CustomRegexSearch.PerformCustomRegexSearch(str1, customRegex);
-
-
-                    if (matches.Count > 0)
-                    {
-                        Console.WriteLine("Matches found:");
-                        foreach (string match in matches)
-                        {
-                            Console.WriteLine(match);
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine("No matches found.");
-                    }
-
-                }
-                Console.ReadKey();
-            }
-        }
-    }
 }
